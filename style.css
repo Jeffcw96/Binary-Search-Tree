@@ -1,0 +1,45 @@
+.nodes{
+    font-size: 3vh;
+    width: 100px;
+    height: 100px;
+    background: brown;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    position: relative;
+}
+
+.root-layer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.got-right.nodes::after{
+    content: '\005C';
+    font-size: 8vh;
+    font-weight: bold;
+    position: absolute;
+    right: -15px;
+    bottom: -50px;
+    transform: rotateZ(-20deg);
+}
+
+.got-left.nodes::before{
+    content: "/";
+    font-size: 8vh;
+    font-weight: bold;
+    position: absolute;
+    left: -15px;
+    bottom: -50px;
+    transform: rotateZ(20deg);
+}
+
+.root-layer{
+    margin: 20px 0;
+}
+
+.bst-container{
+    margin-top: 20vh;
+}
