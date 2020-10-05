@@ -1,26 +1,3 @@
-function PrototypeBinarySearchTree(val) {
-    this.value = val;
-    this.left = null;
-    this.right = null;
-}
-
-PrototypeBinarySearchTree.prototype.insert = function (val) {
-    // 1. Check the inserted value is bigger or lesser to the root node value
-    // 2. Assign Left if lesser than and right if greater than
-    // 3. Check if current tree node got child tree node
-    // 4. Compare the inserted value with it's child tree node value if it's not null, create a tree nodes if it's null
-    //console.log("this value", this.value, "val", val);
-    let treeNode = val < this.value ? "left" : "right";
-    //console.log("this", this);
-    if (this[treeNode]) {
-        this[treeNode].insert(val);
-    } else {
-        this[treeNode] = new PrototypeBinarySearchTree(val);
-    }
-}
-
-
-
 class BinarySearchTree {
     constructor(val) {
         this.value = val;
@@ -29,19 +6,22 @@ class BinarySearchTree {
     }
 
     insert = (val) => {
-        let treeNode = val > this.value ? "right" : "left";
-        if (this[treeNode]) {
-            this[treeNode].insert(val);
+        //assign left if input value is lesser than the current node value
+        //assign right if input value is lesser than the current node value
+        let currentNode = val > this.value ? "right" : "left";
+
+        //recursively check & compare with the child node until there is no child node left
+        if (this[currentNode]) {
+            this[currentNode].insert(val);
         } else {
-            this[treeNode] = new BinarySearchTree(val)
+            this[currentNode] = new BinarySearchTree(val)
         }
     }
 
     max = () => {
-        //get root right
+        //As BST is naturally sorted, deepest node from right path will be the highest value of the tree
         let maxVal = this.right;
         while (maxVal) {
-            //get tree right
             maxVal = maxVal.right;
 
             //if the tree doesnt have the child node, get current value and break
@@ -54,6 +34,7 @@ class BinarySearchTree {
     }
 
     min = () => {
+        //As BST is naturally sorted, deepest node from left path will be the smallest value of the tree
         let minVal = this.left;
         while (minVal) {
             minVal = minVal.left;
@@ -65,49 +46,41 @@ class BinarySearchTree {
         console.log("minVal", minVal);
     }
 
+    //similar concept with insert method.
     contain = (val) => {
         let currentNode = val > this.value ? this.right : this.left;
         while (currentNode) {
-            console.log("currentNode >>", currentNode);
             if (val == currentNode.value) {
                 return true
             }
-
             if (val < currentNode.value) {
                 currentNode = currentNode.left;
             } else {
                 currentNode = currentNode.right;
             }
-            console.log("currentNode >>", currentNode);
         }
         return false
     }
 
 }
 
-let PBST = new PrototypeBinarySearchTree(50)
+//Insert value 50 as the root value
 let BST = new BinarySearchTree(50);
-function insertTreeNode() {
-    var nodeVal = document.getElementById("nodeVal").value;
-    BST.insert(nodeVal);
-    PBST.insert(nodeVal);
-}
 
-function maxTreeVal() {
-    BST.max();
-}
+BST.insert(38);
+BST.insert(55);
+BST.insert(45);
+BST.insert(46);
+BST.insert(43);
+BST.insert(68);
+BST.insert(66);
+BST.insert(85);
+BST.insert(35);
+BST.insert(23);
 
-function minTreeVal() {
-    BST.min();
-}
 
-function containTreeVal() {
-    var nodeVal = document.getElementById("nodeVal").value;
-    let isContain = BST.contain(nodeVal);
+BST.contain(3) // return false
+BST.contain(68) // return true
 
-    if (isContain) {
-        console.log("FOUND");
-    } else {
-        console.log("NOT FOUND");
-    }
-}
+BST.max() // return 85
+BST.min() // return 23
